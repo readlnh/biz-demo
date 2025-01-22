@@ -8,8 +8,10 @@ import (
 	"github.com/cloudwego/kitex/pkg/klog"
 	"github.com/cloudwego/kitex/pkg/rpcinfo"
 	"github.com/cloudwego/kitex/server"
+	"github.com/joho/godotenv"
 	kitexlogrus "github.com/kitex-contrib/obs-opentelemetry/logging/logrus"
 	consul "github.com/kitex-contrib/registry-consul"
+	"github.com/readlnh/biz-demo/gomall/demo/demo-proto/biz/dal"
 	"github.com/readlnh/biz-demo/gomall/demo/demo-proto/conf"
 	"github.com/readlnh/biz-demo/gomall/demo/demo-proto/kitex_gen/pbapi/echoservice"
 	"go.uber.org/zap/zapcore"
@@ -17,11 +19,17 @@ import (
 )
 
 func main() {
+	err := godotenv.Load()
+	if err != nil {
+		panic(err)
+	}
+	dal.Init()
+
 	opts := kitexInit()
 
 	svr := echoservice.NewServer(new(EchoServiceImpl), opts...)
 
-	err := svr.Run()
+	err = svr.Run()
 	if err != nil {
 		klog.Error(err.Error())
 	}
