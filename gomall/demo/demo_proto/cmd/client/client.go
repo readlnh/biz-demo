@@ -14,6 +14,7 @@ import (
 	consul "github.com/kitex-contrib/registry-consul"
 	"github.com/readlnh/biz-demo/gomall/demo/demo-proto/kitex_gen/pbapi"
 	"github.com/readlnh/biz-demo/gomall/demo/demo-proto/kitex_gen/pbapi/echoservice"
+	"github.com/readlnh/biz-demo/gomall/demo/demo-proto/middleware"
 )
 
 func main() {
@@ -24,6 +25,7 @@ func main() {
 	c, err := echoservice.NewClient("demo_proto", client.WithResolver(r),
 		client.WithTransportProtocol(transport.GRPC),
 		client.WithMetaHandler(transmeta.ClientHTTP2Handler),
+		client.WithMiddleware(middleware.MiddleWare),
 	)
 	if err != nil {
 		panic(err)
