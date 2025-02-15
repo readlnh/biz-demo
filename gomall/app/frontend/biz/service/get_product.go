@@ -5,32 +5,31 @@ import (
 
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/common/utils"
-	"github.com/readlnh/biz-demo/gomall/app/frontend/hertz_gen/frontend/common"
+	product "github.com/readlnh/biz-demo/gomall/app/frontend/hertz_gen/frontend/product"
 	"github.com/readlnh/biz-demo/gomall/app/frontend/infra/rpc"
 	rpcproduct "github.com/readlnh/biz-demo/gomall/rpc_gen/kitex_gen/product"
 )
 
-type HomeService struct {
+type GetProductService struct {
 	RequestContext *app.RequestContext
 	Context        context.Context
 }
 
-func NewHomeService(Context context.Context, RequestContext *app.RequestContext) *HomeService {
-	return &HomeService{RequestContext: RequestContext, Context: Context}
+func NewGetProductService(Context context.Context, RequestContext *app.RequestContext) *GetProductService {
+	return &GetProductService{RequestContext: RequestContext, Context: Context}
 }
 
-func (h *HomeService) Run(req *common.Empty) (map[string]any, error) {
+func (h *GetProductService) Run(req *product.ProductReq) (resp map[string]any, err error) {
 	//defer func() {
 	// hlog.CtxInfof(h.Context, "req = %+v", req)
 	// hlog.CtxInfof(h.Context, "resp = %+v", resp)
 	//}()
 	// todo edit your code
-	products, err := rpc.ProductClient.ListProducts(h.Context, &rpcproduct.ListProductsReq{})
+	p, err := rpc.ProductClient.GetProduct(h.Context, &rpcproduct.GetProductReq{Id: req.Id})
 	if err != nil {
 		return nil, err
 	}
 	return utils.H{
-		"title": "Hot sales",
-		"items": products.Products,
+		"item": p.Product,
 	}, nil
 }

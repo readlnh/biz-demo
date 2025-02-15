@@ -18,9 +18,12 @@ func NewListProductsService(ctx context.Context) *ListProductsService {
 // Run create note info
 func (s *ListProductsService) Run(req *product.ListProductsReq) (resp *product.ListProductsResp, err error) {
 	// Finish your business logic.
+	// fmt.Println("ListProductsService")
+
 	categoryQuery := model.NewCategoryQuery(s.ctx, mysql.DB)
 
 	c, err := categoryQuery.GetProductsByCategoryName(req.CategoryName)
+	// fmt.Println(c)
 	if err != nil {
 		return nil, err
 	}
@@ -37,6 +40,8 @@ func (s *ListProductsService) Run(req *product.ListProductsReq) (resp *product.L
 			})
 		}
 	}
+
+	// fmt.Println(resp)
 
 	return resp, nil
 }
