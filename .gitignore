@@ -1,1 +1,4 @@
 gomall/*/.env
+# Ignore all tmp directories and their contents
+**/tmp/
+tmp/
