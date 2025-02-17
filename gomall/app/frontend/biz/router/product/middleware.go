@@ -16,7 +16,7 @@ func _getproductMw() []app.HandlerFunc {
 	return nil
 }
 
-func _searchproducsMw() []app.HandlerFunc {
+func _searchproductsMw() []app.HandlerFunc {
 	// your code...
 	return nil
 }
